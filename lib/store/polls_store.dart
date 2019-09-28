@@ -1,4 +1,3 @@
-import 'package:digitalcontest_mobile/models/finished_poll/finished_poll.dart';
 import 'package:digitalcontest_mobile/models/poll/poll.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
 import 'package:requests/requests.dart';
@@ -28,11 +27,7 @@ var jsonPoll = {
       'type': 'rating',
       'options': []
     },
-    {
-      '_id': '3',
-      'title': 'Оставьте комментарий',
-      'type': 'text'
-    }
+    {'_id': '3', 'title': 'Оставьте комментарий', 'type': 'text'}
   ]
 };
 
@@ -64,13 +59,22 @@ class PollsStore extends Model {
     try {
       var jsonPolls = await Requests.get(url, headers: headers, json: true);
       for (var i = 0; i < jsonPolls.length; i++) {
-        jsonPolls[i] = await fetchQuestions(jsonPolls[i]['_id']);
+        print(jsonPolls[i]['image']);
+        jsonPolls[i]['questions'] = await fetchQuestions(jsonPolls[i]['_id']);
+
+        if (jsonPolls[i]['image'] != null) {
+          jsonPolls[i]['image'] = rootStore.apiHost + jsonPolls[i]['image'];
+        }
       }
 
       polls = [];
 
       jsonPolls.forEach((jsonPoll) {
         polls.add(Poll.fromJson(jsonPoll));
+      });
+
+      polls.sort((first, second) {
+        return second.creationDate - first.creationDate;
       });
 
       print('Loaded polls: ${polls.length}');
@@ -86,7 +90,8 @@ class PollsStore extends Model {
   fetchQuestions(String pollId) async {
     var url = rootStore.apiHost + '/api/mobile/v1/poll/detail/$pollId';
     var headers = {'x-access-token': rootStore.getAccessToken().toString()};
-    return await Requests.get(url, headers: headers, json: true);
+    var response = await Requests.get(url, headers: headers, json: true);
+    return response['questions'];
   }
 
   fetchFinishedPolls() async {
@@ -99,7 +104,10 @@ class PollsStore extends Model {
     var headers = {'x-access-token': rootStore.getAccessToken().toString()};
 
     try {
-      var jsonFinishedPolls = await Requests.get(url, headers: headers, json: true);
+      finishedPolls = [];
+
+      var jsonFinishedPolls =
+          await Requests.get(url, headers: headers, json: true);
 
       jsonFinishedPolls.forEach((jsonFinishedPoll) {
         finishedPolls.add(jsonFinishedPoll['poll_id']);

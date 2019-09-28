@@ -26,6 +26,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   firebase_messaging: 5.1.6
   shared_preferences: 0.5.3+4
+  intl: 0.16.0
 
 dev_dependencies:
   flutter_test:

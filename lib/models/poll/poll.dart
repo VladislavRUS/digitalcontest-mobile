@@ -8,6 +8,7 @@ class Poll {
   String image;
   String video;
   String legalType;
+  int creationDate;
   Geo geo;
   List<Question> questions;
 
@@ -18,6 +19,7 @@ class Poll {
     image = map['image'];
     video = map['video'];
     legalType = map['legalType'];
+    creationDate = int.parse(map['date_created']);
     geo = map['geo'] != null ? Geo.fromJson(map['geo']) : null;
     questions = [];
 

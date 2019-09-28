@@ -43,6 +43,7 @@ class RootStore extends Model {
       print('Updated token');
     } catch (e) {
       print(e);
+      await logout();
       updateTokenError = true;
     }
   }

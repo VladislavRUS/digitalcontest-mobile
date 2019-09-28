@@ -6,7 +6,11 @@ import 'package:digitalcontest_mobile/models/poll/poll.dart';
 import 'package:digitalcontest_mobile/store/polls_store.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+    new GlobalKey<RefreshIndicatorState>();
 
 class PollsScreen extends StatefulWidget {
   @override
@@ -22,18 +26,28 @@ class PollsScreenState extends State<PollsScreen> {
   Widget buildList() {
     PollsStore pollsStore = of(context).pollsStore;
 
-    return ListView.builder(
-        itemCount: pollsStore.polls.length,
-        itemBuilder: (context, index) {
-          return buildPollItem(pollsStore.polls[index]);
-        });
+    return RefreshIndicator(
+      key: _refreshIndicatorKey,
+      onRefresh: () async {
+        await forceUpdate();
+      },
+      child: ListView.builder(
+          itemCount: pollsStore.polls.length,
+          itemBuilder: (context, index) {
+            return buildPollItem(pollsStore.polls[index]);
+          }),
+    );
   }
 
   Widget buildPollItem(Poll poll) {
     PollsStore pollsStore = of(context).pollsStore;
 
+    DateTime creationDate =
+        DateTime.fromMillisecondsSinceEpoch(poll.creationDate);
+    String formattedDate = DateFormat('dd MMM').format(creationDate);
+
     Widget bottomRow = Row(
-      children: <Widget>[BottomRowElement('26 сент.')],
+      children: <Widget>[BottomRowElement(formattedDate)],
     );
 
     return ListItem(false, poll.image, poll.title, bottomRow, onTap: () {
@@ -55,6 +69,13 @@ class PollsScreenState extends State<PollsScreen> {
       await pollsStore.fetchPolls();
     }
 
+    await pollsStore.fetchFinishedPolls();
+  }
+
+  forceUpdate() async {
+    PollsStore pollsStore = of(context).pollsStore;
+
+    await pollsStore.fetchPolls();
     await pollsStore.fetchFinishedPolls();
   }
 
