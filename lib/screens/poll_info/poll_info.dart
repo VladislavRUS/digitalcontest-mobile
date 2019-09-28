@@ -1,6 +1,7 @@
 import 'package:digitalcontest_mobile/components/app_bar_title/app_bar_title.dart';
 import 'package:digitalcontest_mobile/components/app_leading_back/app_leading_back.dart';
 import 'package:digitalcontest_mobile/components/button/button.dart';
+import 'package:digitalcontest_mobile/constants/routes/routes.dart';
 import 'package:digitalcontest_mobile/store/polls_store.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,8 @@ class PollInfoScreen extends StatefulWidget {
 }
 
 class PollInfoScreenState extends State<PollInfoScreen> {
-  static RootStore of(context) => ScopedModel.of(context);
+  static RootStore of(context) =>
+      ScopedModel.of(context, rebuildOnChange: true);
 
   Widget buildTitle() {
     PollsStore pollsStore = of(context).pollsStore;
@@ -56,6 +58,28 @@ class PollInfoScreenState extends State<PollInfoScreen> {
             tag: imageUrl, child: Image.network(imageUrl, fit: BoxFit.cover)));
   }
 
+  buildButton() {
+    RootStore rootStore = of(context);
+    PollsStore pollsStore = rootStore.pollsStore;
+
+    var isFinished = pollsStore.finishedPolls.firstWhere(
+        (pollId) => pollsStore.currentPoll.id == pollId,
+        orElse: () => null);
+
+    if (isFinished != null) {
+      return null;
+    }
+
+    return Positioned(
+      bottom: 20,
+      left: 20,
+      right: 20,
+      child: Button('Пройти опрос', () {
+        Navigator.of(context).pushNamed(Routes.POLL);
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,13 +106,8 @@ class PollInfoScreenState extends State<PollInfoScreen> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 20,
-              left: 20,
-              right: 20,
-              child: Button('Пройти опрос', () {}),
-            )
-          ],
+            buildButton()
+          ].where((widget) => widget != null).toList(),
         ),
       ),
     );

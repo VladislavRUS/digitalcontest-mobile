@@ -14,14 +14,13 @@ class AppScreen extends StatefulWidget {
 }
 
 class AppScreenState extends State<AppScreen> {
+  int currentPage = 1;
   List<Widget> pages = [
     FeedScreen(),
     PollsScreen(),
     ProfileScreen(),
     SettingsScreen()
   ];
-
-  int currentPage = 1;
 
   Widget buildAppBar() {
     return AppBar(

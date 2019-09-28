@@ -7,16 +7,18 @@ class Poll {
   String text;
   String image;
   String video;
+  String legalType;
   Geo geo;
   List<Question> questions;
 
   Poll.fromJson(map) {
-    id = map['id'];
+    id = map['_id'];
     title = map['title'];
     text = map['text'];
     image = map['image'];
     video = map['video'];
-    geo = Geo.fromJson(map['geo']);
+    legalType = map['legalType'];
+    geo = map['geo'] != null ? Geo.fromJson(map['geo']) : null;
     questions = [];
 
     var jsonQuestions = map['questions'];

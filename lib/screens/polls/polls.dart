@@ -16,7 +16,8 @@ class PollsScreen extends StatefulWidget {
 }
 
 class PollsScreenState extends State<PollsScreen> {
-  static RootStore of(context) => ScopedModel.of<RootStore>(context);
+  static RootStore of(context) =>
+      ScopedModel.of<RootStore>(context, rebuildOnChange: true);
 
   Widget buildList() {
     PollsStore pollsStore = of(context).pollsStore;
@@ -39,6 +40,22 @@ class PollsScreenState extends State<PollsScreen> {
       pollsStore.setCurrentPoll(poll);
       Navigator.of(context).pushNamed(Routes.POLL_INFO);
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(init);
+  }
+
+  init(_) async {
+    PollsStore pollsStore = of(context).pollsStore;
+
+    if (pollsStore.polls.length == 0) {
+      await pollsStore.fetchPolls();
+    }
+
+    await pollsStore.fetchFinishedPolls();
   }
 
   @override
