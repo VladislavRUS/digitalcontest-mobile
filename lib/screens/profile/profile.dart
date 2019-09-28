@@ -1,7 +1,10 @@
+import 'package:digitalcontest_mobile/components/app_bar_title/app_bar_title.dart';
 import 'package:digitalcontest_mobile/components/button/button.dart';
+import 'package:digitalcontest_mobile/constants/app_colors/app_colors.dart';
 import 'package:digitalcontest_mobile/constants/routes/routes.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -24,9 +27,25 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[Button('Выйти', onLogout)],
-      ),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: AppColors.MAIN_COLOR,
+        title: AppBarTitle('Профиль'),
+        actions: <Widget>[
+          InkWell(
+            onTap: onLogout,
+            child: Container(
+              margin: EdgeInsets.only(right: 10),
+              child: SvgPicture.asset(
+                'assets/icons/log-out.svg',
+                color: Colors.white,
+                width: 20,
+                height: 20,
+              ),
+            ),
+          )
+        ],
+      )
     );
   }
 }

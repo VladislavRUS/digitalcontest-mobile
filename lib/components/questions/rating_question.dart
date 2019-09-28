@@ -1,4 +1,5 @@
 import 'package:digitalcontest_mobile/components/questions/question_title.dart';
+import 'package:digitalcontest_mobile/constants/app_colors/app_colors.dart';
 import 'package:digitalcontest_mobile/models/question/question.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,9 @@ class RatingQuestion extends StatelessWidget {
         },
         child: Icon(
           Icons.star,
-          color: index <= selectedStarIndex ? Colors.yellow : Colors.grey,
+          color: index <= selectedStarIndex
+              ? AppColors.MAIN_COLOR
+              : AppColors.SCAFFOLD_BG,
           size: 50,
         ),
       ),
@@ -44,7 +47,7 @@ class RatingQuestion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: 40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[QuestionTitle(question.title), buildStars()],

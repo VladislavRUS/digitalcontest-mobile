@@ -11,21 +11,23 @@ class ListItem extends StatelessWidget {
       {this.onTap});
 
   Widget buildImage() {
-    return Container(
-        height: 200,
-        margin: EdgeInsets.only(bottom: 10),
-        child: isLocal
-            ? Image.asset(
-                imageUrl,
-                fit: BoxFit.cover,
-              )
-            : Hero(
-                tag: imageUrl,
-                child: Image.network(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(6),
+      child: Container(
+          height: 200,
+          child: isLocal
+              ? Image.asset(
                   imageUrl,
                   fit: BoxFit.cover,
-                ),
-              ));
+                )
+              : Hero(
+                  tag: imageUrl,
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                )),
+    );
   }
 
   @override
@@ -36,22 +38,19 @@ class ListItem extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: EdgeInsets.all(20),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                imageUrl != null ? buildImage() : null,
-                Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    title,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              imageUrl != null ? buildImage() : null,
+              Container(
+                margin: EdgeInsets.only(bottom: 10, top: 10),
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                 ),
-                bottomRow
-              ].where((widget) => widget != null).toList(),
-            ),
+              ),
+              bottomRow
+            ].where((widget) => widget != null).toList(),
           ),
         ),
       ),

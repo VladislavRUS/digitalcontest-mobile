@@ -5,6 +5,7 @@ import 'package:digitalcontest_mobile/screens/polls/polls.dart';
 import 'package:digitalcontest_mobile/screens/profile/profile.dart';
 import 'package:digitalcontest_mobile/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppScreen extends StatefulWidget {
   @override
@@ -30,7 +31,7 @@ class AppScreenState extends State<AppScreen> {
     );
   }
 
-  Widget buildNavigationBarIcon(IconData iconData, int page) {
+  Widget buildNavigationBarIcon(String asset, int page) {
     var isActive = page == currentPage;
 
     return Expanded(
@@ -43,22 +44,31 @@ class AppScreenState extends State<AppScreen> {
               },
               child: Container(
                   height: 50,
-                  child: Icon(
-                    iconData,
-                    color: isActive ? AppColors.BUTTON_COLOR : Colors.black87,
+                  child: Center(
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      child: SvgPicture.asset(
+                        asset,
+                        color: isActive
+                            ? AppColors.BUTTON_COLOR
+                            : AppColors.ICON_INACTIVE_COLOR,
+                      ),
+                    ),
                   )))),
     );
   }
 
   Widget buildNavigationBar() {
     return Container(
+      decoration: BoxDecoration(boxShadow: [BoxShadow(color: Colors.black)]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          buildNavigationBarIcon(Icons.rss_feed, 0),
-          buildNavigationBarIcon(Icons.question_answer, 1),
-          buildNavigationBarIcon(Icons.person, 2),
-          buildNavigationBarIcon(Icons.settings, 3),
+          buildNavigationBarIcon('assets/icons/rss.svg', 0),
+          buildNavigationBarIcon('assets/icons/bell.svg', 1),
+          buildNavigationBarIcon('assets/icons/user.svg', 2),
+          buildNavigationBarIcon('assets/icons/settings.svg', 3),
         ],
       ),
     );
@@ -67,8 +77,6 @@ class AppScreenState extends State<AppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[currentPage],
-      bottomNavigationBar: buildNavigationBar(),
-    );
+        body: pages[currentPage], bottomNavigationBar: buildNavigationBar());
   }
 }

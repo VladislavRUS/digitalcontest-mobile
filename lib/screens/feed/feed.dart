@@ -1,12 +1,14 @@
 import 'package:digitalcontest_mobile/components/app_bar_title/app_bar_title.dart';
 import 'package:digitalcontest_mobile/components/list_item/bottom_row_element/bottom_row_element.dart';
 import 'package:digitalcontest_mobile/components/list_item/list_item.dart';
+import 'package:digitalcontest_mobile/constants/app_colors/app_colors.dart';
 import 'package:digitalcontest_mobile/models/post/post.dart';
 import 'package:digitalcontest_mobile/models/topic/topic.dart';
 import 'package:digitalcontest_mobile/store/posts_store.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
 import 'package:digitalcontest_mobile/store/topics_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -24,7 +26,7 @@ class FeedScreenState extends State<FeedScreen> {
     TopicsStore topicsStore = of(context).topicsStore;
 
     return Container(
-      height: 30,
+      height: 50,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: topicsStore.topics.length,
@@ -70,7 +72,7 @@ class FeedScreenState extends State<FeedScreen> {
         bottom: 0,
         right: 0,
         left: 0,
-        top: 30,
+        top: 50,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,15 +108,16 @@ class FeedScreenState extends State<FeedScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.MAIN_COLOR,
         title: AppBarTitle('Лента'),
         actions: <Widget>[
           Container(
               margin: EdgeInsets.only(right: 10),
-              child: Icon(
-                Icons.search,
-                color: Colors.black,
-                size: 30,
+              child: SvgPicture.asset(
+                'assets/icons/search.svg',
+                color: Colors.white,
+                width: 20,
+                height: 20,
               ))
         ],
       ),

@@ -1,7 +1,8 @@
 import 'package:digitalcontest_mobile/components/button/button.dart';
 import 'package:digitalcontest_mobile/components/input/input.dart';
+import 'package:digitalcontest_mobile/components/select_button/select_button.dart';
+import 'package:digitalcontest_mobile/constants/app_colors/app_colors.dart';
 import 'package:digitalcontest_mobile/constants/genders/genders.dart';
-import 'package:digitalcontest_mobile/constants/routes/routes.dart';
 import 'package:digitalcontest_mobile/store/auth_store.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
 import 'package:flutter/material.dart';
@@ -45,19 +46,28 @@ class RegisterScreenState extends State<RegisterScreen> {
     return Container(
       child: Column(
         children: <Widget>[
-          Input(
-            companyController,
-            label: 'Название компании',
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Input(
+              companyController,
+              label: 'Название компании',
+            ),
           ),
-          Input(
-            phoneController,
-            label: 'Телефон',
-            inputType: TextInputType.phone,
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Input(
+              phoneController,
+              label: 'Телефон',
+              inputType: TextInputType.phone,
+            ),
           ),
-          Input(
-            passwordController,
-            label: 'Пароль',
-            inputType: TextInputType.visiblePassword,
+          Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: Input(
+              passwordController,
+              label: 'Пароль',
+              inputType: TextInputType.visiblePassword,
+            ),
           ),
         ],
       ),
@@ -91,30 +101,59 @@ class RegisterScreenState extends State<RegisterScreen> {
             label: 'Возраст',
             inputType: TextInputType.numberWithOptions(),
           ),
-          Row(
-            children: <Widget>[
-              Text('Я мужчина'),
-              Radio(
-                  value: Genders.MALE,
-                  groupValue: gender,
-                  onChanged: (newValue) {
-                    setState(() {
-                      gender = Genders.MALE;
-                    });
-                  }),
-            ],
+          Container(
+            margin: EdgeInsets.only(bottom: 0, top: 20),
+            child: Row(
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.only(right: 20),
+                    child: Text(
+                      'Пол',
+                      style: TextStyle(color: AppColors.TEXT_COLOR),
+                    )),
+              ],
+            ),
           ),
           Row(
             children: <Widget>[
-              Text('Я женщина'),
-              Radio(
-                  value: Genders.FEMALE,
-                  groupValue: gender,
-                  onChanged: (newValue) {
-                    setState(() {
-                      gender = Genders.FEMALE;
-                    });
-                  }),
+              Row(
+                children: <Widget>[
+                  Radio(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      activeColor: AppColors.MAIN_COLOR,
+                      value: Genders.MALE,
+                      groupValue: gender,
+                      onChanged: (newValue) {
+                        setState(() {
+                          gender = Genders.MALE;
+                        });
+                      }),
+                  Text(
+                    'Мужской',
+                    style: TextStyle(color: AppColors.TEXT_COLOR),
+                  ),
+                ],
+              ),
+              Container(
+                width: 10,
+              ),
+              Row(
+                children: <Widget>[
+                  Radio(
+                      activeColor: AppColors.MAIN_COLOR,
+                      value: Genders.FEMALE,
+                      groupValue: gender,
+                      onChanged: (newValue) {
+                        setState(() {
+                          gender = Genders.FEMALE;
+                        });
+                      }),
+                  Text(
+                    'Женский',
+                    style: TextStyle(color: AppColors.TEXT_COLOR),
+                  ),
+                ],
+              )
             ],
           )
         ],
@@ -127,19 +166,22 @@ class RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget buildIsCompany() {
+    var options = ['Я юр. лицо', 'Я физ. лицо'];
+
     return Container(
-      child: Row(
-        children: <Widget>[
-          Text('Я юридическое лицо'),
-          Checkbox(
-              value: isCompany,
-              onChanged: (newValue) {
-                setState(() {
-                  isCompany = newValue;
-                });
-              }),
-        ],
-      ),
+      margin: EdgeInsets.only(bottom: 10, top: 10),
+      child:
+          SelectButton(options, isCompany ? options[0] : options[1], (option) {
+        var newIsCompany = false;
+
+        if (option == options[0]) {
+          newIsCompany = true;
+        }
+
+        setState(() {
+          isCompany = newIsCompany;
+        });
+      }),
     );
   }
 
@@ -151,9 +193,11 @@ class RegisterScreenState extends State<RegisterScreen> {
     if (!authStore.error) {
       Navigator.of(context).pop();
     } else {
-      showDialog(context: context, builder: (_) {
-        return AlertDialog(title: Text('Ошибка!'));
-      });
+      showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(title: Text('Ошибка!'));
+          });
     }
   }
 
@@ -196,6 +240,15 @@ class RegisterScreenState extends State<RegisterScreen> {
     var isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(
+          'Регистрация',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+        ),
+        backgroundColor: AppColors.MAIN_COLOR,
+      ),
+      backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
           SizedBox.expand(

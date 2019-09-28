@@ -1,5 +1,6 @@
-import 'package:digitalcontest_mobile/screens/app/app.dart';
+import 'package:digitalcontest_mobile/constants/app_colors/app_colors.dart';
 import 'package:digitalcontest_mobile/constants/routes/routes.dart';
+import 'package:digitalcontest_mobile/screens/app/app.dart';
 import 'package:digitalcontest_mobile/screens/initial/initial.dart';
 import 'package:digitalcontest_mobile/screens/login/login.dart';
 import 'package:digitalcontest_mobile/screens/poll/poll.dart';
@@ -8,15 +9,13 @@ import 'package:digitalcontest_mobile/screens/register/register.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-
+import 'package:intl/intl.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 void main() async {
-
   const defaultLocale = 'ru_RU';
   Intl.defaultLocale = defaultLocale;
   initializeDateFormatting(defaultLocale);
@@ -47,6 +46,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+          canvasColor: Colors.white,
+          primaryColor: AppColors.MAIN_COLOR,
+          unselectedWidgetColor: AppColors.GREY_COLOR),
       initialRoute: Routes.INITIAL,
       routes: {
         Routes.INITIAL: (_) => InitialScreen(),

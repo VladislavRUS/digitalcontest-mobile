@@ -63,9 +63,11 @@ class PollScreenState extends State<PollScreen> {
     AnswersStore answersStore = rootStore.answersStore;
     await answersStore.submitAnswers();
 
-    await showDialog(context: context, builder: (_) {
-      return AlertDialog(title: Text('Спасибо за прохождение опроса!'));
-    });
+    await showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(title: Text('Спасибо за прохождение опроса!'));
+        });
 
     Navigator.of(context).pop();
   }
@@ -92,20 +94,24 @@ class PollScreenState extends State<PollScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
           SizedBox.expand(
-            child: buildPoll(),
+            child: Container(padding: EdgeInsets.all(20), child: buildPoll()),
           ),
-          Positioned(
-            bottom: 20,
-            left: 20,
-            right: 20,
-            child: Button('Завершить', onFinish,
-                isLoading: isLoading(), isDisabled: isButtonDisabled()),
-          )
-        ],
+          !isKeyboardVisible
+              ? Positioned(
+                  bottom: 20,
+                  left: 20,
+                  right: 20,
+                  child: Button('Завершить', onFinish,
+                      isLoading: isLoading(), isDisabled: isButtonDisabled()),
+                )
+              : null
+        ].where((widget) => widget != null).toList(),
       ),
     );
   }

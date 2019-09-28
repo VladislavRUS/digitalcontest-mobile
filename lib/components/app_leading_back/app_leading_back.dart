@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AppLeadingBack extends StatelessWidget {
   @override
@@ -7,9 +8,9 @@ class AppLeadingBack extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).pop();
         },
-        icon: Icon(
-          Icons.arrow_back,
-          color: Colors.black,
+        icon: SvgPicture.asset(
+          'assets/icons/chevron.svg',
+          color: Colors.white,
         ));
   }
 }

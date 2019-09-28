@@ -11,7 +11,11 @@ class TextQuestion extends StatelessWidget {
 
   Widget buildTextField() {
     return Container(
-      child: TextField(maxLines: 5, onChanged: onTextChange),
+      child: TextField(
+        maxLines: 2,
+        onChanged: onTextChange,
+        decoration: InputDecoration(hintText: 'Введите текст'),
+      ),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:digitalcontest_mobile/components/app_bar_title/app_bar_title.dart';
 import 'package:digitalcontest_mobile/components/app_leading_back/app_leading_back.dart';
 import 'package:digitalcontest_mobile/components/button/button.dart';
+import 'package:digitalcontest_mobile/constants/app_colors/app_colors.dart';
 import 'package:digitalcontest_mobile/constants/routes/routes.dart';
 import 'package:digitalcontest_mobile/store/polls_store.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
@@ -83,31 +84,26 @@ class PollInfoScreenState extends State<PollInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        elevation: 0,
-        leading: AppLeadingBack(),
-        backgroundColor: Colors.white,
-        title: AppBarTitle('Опрос'),
-      ),
       backgroundColor: Colors.white,
-      body: SizedBox.expand(
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    buildImage(),
-                    buildTitle(),
-                    buildDescription()
-                  ].where((widget) => widget != null).toList(),
+      body: SafeArea(
+        child: SizedBox.expand(
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      buildImage(),
+                      buildTitle(),
+                      buildDescription()
+                    ].where((widget) => widget != null).toList(),
+                  ),
                 ),
               ),
-            ),
-            buildButton()
-          ].where((widget) => widget != null).toList(),
+              buildButton()
+            ].where((widget) => widget != null).toList(),
+          ),
         ),
       ),
     );

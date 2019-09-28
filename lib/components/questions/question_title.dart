@@ -10,7 +10,7 @@ class QuestionTitle extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       child: Text(text,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
     );
   }
 }

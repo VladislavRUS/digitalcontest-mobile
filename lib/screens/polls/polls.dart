@@ -1,6 +1,7 @@
 import 'package:digitalcontest_mobile/components/app_bar_title/app_bar_title.dart';
 import 'package:digitalcontest_mobile/components/list_item/bottom_row_element/bottom_row_element.dart';
 import 'package:digitalcontest_mobile/components/list_item/list_item.dart';
+import 'package:digitalcontest_mobile/constants/app_colors/app_colors.dart';
 import 'package:digitalcontest_mobile/constants/routes/routes.dart';
 import 'package:digitalcontest_mobile/models/poll/poll.dart';
 import 'package:digitalcontest_mobile/store/polls_store.dart';
@@ -44,7 +45,7 @@ class PollsScreenState extends State<PollsScreen> {
 
     DateTime creationDate =
         DateTime.fromMillisecondsSinceEpoch(poll.creationDate);
-    String formattedDate = DateFormat('dd MMM').format(creationDate);
+    String formattedDate = DateFormat('dd MMMM yyyy').format(creationDate);
 
     Widget bottomRow = Row(
       children: <Widget>[BottomRowElement(formattedDate)],
@@ -84,7 +85,7 @@ class PollsScreenState extends State<PollsScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.MAIN_COLOR,
         title: AppBarTitle('Опросы'),
       ),
       backgroundColor: Colors.white,

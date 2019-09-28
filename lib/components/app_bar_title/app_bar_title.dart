@@ -9,6 +9,6 @@ class AppBarTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(this.text,
         style: TextStyle(
-            fontSize: 22, fontWeight: FontWeight.w700, color: Colors.black));
+            fontSize: 20, fontWeight: FontWeight.w300, color: Colors.white));
   }
 }
