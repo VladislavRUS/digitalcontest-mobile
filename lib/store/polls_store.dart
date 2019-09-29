@@ -1,3 +1,4 @@
+import 'package:digitalcontest_mobile/main.dart';
 import 'package:digitalcontest_mobile/models/poll/poll.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
 import 'package:requests/requests.dart';
@@ -38,6 +39,7 @@ class PollsStore extends Model {
   Poll currentPoll;
   bool isLoading = false;
   bool error = false;
+  int newPollsCount = 0;
 
   PollsStore(this.rootStore);
 
@@ -59,13 +61,14 @@ class PollsStore extends Model {
     try {
       var jsonPolls = await Requests.get(url, headers: headers, json: true);
       for (var i = 0; i < jsonPolls.length; i++) {
-        print(jsonPolls[i]['image']);
         jsonPolls[i]['questions'] = await fetchQuestions(jsonPolls[i]['_id']);
 
         if (jsonPolls[i]['image'] != null) {
           jsonPolls[i]['image'] = rootStore.apiHost + jsonPolls[i]['image'];
         }
       }
+
+      List<String> prevPollsId = polls.map((poll) => poll.id).toList();
 
       polls = [];
 
@@ -77,7 +80,11 @@ class PollsStore extends Model {
         return second.creationDate - first.creationDate;
       });
 
+      var newPollsCount = getNewPollsCount(prevPollsId);
+      setNewPollsCount(newPollsCount);
+
       print('Loaded polls: ${polls.length}');
+      print('New polls: $newPollsCount');
     } catch (e) {
       print(e);
       error = true;
@@ -85,6 +92,24 @@ class PollsStore extends Model {
       isLoading = false;
       rootStore.notifyListeners();
     }
+  }
+
+  getNewPollsCount(List<String> prevPollsId) {
+    int cnt = 0;
+
+    polls.forEach((poll) {
+      var id =
+          prevPollsId.firstWhere((id) => id == poll.id, orElse: () => null);
+      if (id == null) {
+        cnt++;
+      }
+    });
+
+    return cnt;
+  }
+
+  setNewPollsCount(int newPollsCount) {
+    this.newPollsCount = newPollsCount;
   }
 
   fetchQuestions(String pollId) async {

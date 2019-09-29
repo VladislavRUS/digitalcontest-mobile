@@ -14,6 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() async {
   const defaultLocale = 'ru_RU';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       theme: ThemeData(
           canvasColor: Colors.white,
           primaryColor: AppColors.MAIN_COLOR,

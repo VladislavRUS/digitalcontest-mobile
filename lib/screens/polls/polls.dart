@@ -24,6 +24,8 @@ class PollsScreenState extends State<PollsScreen> {
   static RootStore of(context) =>
       ScopedModel.of<RootStore>(context, rebuildOnChange: true);
 
+  bool isInitialized = true;
+
   Widget buildList() {
     PollsStore pollsStore = of(context).pollsStore;
 
@@ -67,8 +69,16 @@ class PollsScreenState extends State<PollsScreen> {
     PollsStore pollsStore = of(context).pollsStore;
 
     if (pollsStore.polls.length == 0) {
+      setState(() {
+        isInitialized = false;
+      });
+
       await pollsStore.fetchPolls();
     }
+
+    setState(() {
+      isInitialized = true;
+    });
 
     await pollsStore.fetchFinishedPolls();
   }
@@ -81,6 +91,14 @@ class PollsScreenState extends State<PollsScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    PollsStore pollsStore = of(context).pollsStore;
+    pollsStore.setNewPollsCount(0);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -89,9 +107,15 @@ class PollsScreenState extends State<PollsScreen> {
         title: AppBarTitle('Опросы'),
       ),
       backgroundColor: Colors.white,
-      body: Container(
-        child: buildList(),
-      ),
+      body: isInitialized
+          ? Container(
+              child: buildList(),
+            )
+          : Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(AppColors.MAIN_COLOR),
+              ),
+            ),
     );
   }
 }

@@ -8,7 +8,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RootStore extends Model {
-  String apiHost = 'http://10.178.198.164:3000';
+  String apiHost = 'http://212.109.218.86:3000';
   bool updateTokenError = false;
   String firebaseToken;
   TopicsStore topicsStore;

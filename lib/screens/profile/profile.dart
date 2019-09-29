@@ -1,5 +1,4 @@
 import 'package:digitalcontest_mobile/components/app_bar_title/app_bar_title.dart';
-import 'package:digitalcontest_mobile/components/button/button.dart';
 import 'package:digitalcontest_mobile/constants/app_colors/app_colors.dart';
 import 'package:digitalcontest_mobile/constants/routes/routes.dart';
 import 'package:digitalcontest_mobile/store/root_store.dart';
@@ -45,7 +44,14 @@ class ProfileScreenState extends State<ProfileScreen> {
             ),
           )
         ],
-      )
+      ),
+      body: Center(
+        child: Container(
+            child: Text(
+          'Раздел находится в разработке',
+          style: TextStyle(color: AppColors.TEXT_COLOR, fontSize: 14),
+        )),
+      ),
     );
   }
 }

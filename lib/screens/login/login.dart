@@ -83,9 +83,11 @@ class LoginScreenState extends State<LoginScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          buildGosIcon(
+              'assets/icons/gos.svg', Color.fromARGB(255, 231, 235, 238)),
           buildIcon('assets/icons/vk.svg', Color.fromARGB(255, 74, 118, 168)),
-          buildIcon('assets/icons/vk.svg', Color.fromARGB(255, 74, 118, 168)),
-          buildIcon('assets/icons/vk.svg', Color.fromARGB(255, 74, 118, 168)),
+          buildIcon('assets/icons/ok.svg', Color.fromARGB(255, 238, 130, 8)),
+          buildIcon('assets/icons/yandex.svg', Color.fromARGB(255, 255, 0, 0)),
         ],
       ),
     );
@@ -104,6 +106,16 @@ class LoginScreenState extends State<LoginScreen> {
         height: 18,
         color: Colors.white,
       )),
+    );
+  }
+
+  Widget buildGosIcon(String asset, Color color) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 15),
+      color: color,
+      width: 35,
+      height: 35,
+      child: Center(child: SvgPicture.asset(asset, width: 30, height: 30)),
     );
   }
 
