@@ -57,8 +57,8 @@ class RegisterScreenState extends State<RegisterScreen> {
             margin: EdgeInsets.only(bottom: 10),
             child: Input(
               phoneController,
-              label: 'Телефон',
-              inputType: TextInputType.phone,
+              label: 'Логин',
+              inputType: TextInputType.text,
             ),
           ),
           Container(
@@ -83,13 +83,9 @@ class RegisterScreenState extends State<RegisterScreen> {
             label: 'ФИО',
           ),
           Input(
-            nicknameController,
-            label: 'Псевдоним',
-          ),
-          Input(
             phoneController,
-            label: 'Телефон',
-            inputType: TextInputType.phone,
+            label: 'Логин',
+            inputType: TextInputType.text,
           ),
           Input(
             passwordController,
@@ -214,7 +210,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     } else {
       registrationBody['is_company'] = 0.toString();
       registrationBody['fio'] = fioController.value.text;
-      registrationBody['nickname'] = nicknameController.value.text;
+      registrationBody['nickname'] = registrationBody['phone'];
       registrationBody['age'] = ageController.value.text;
       registrationBody['gender'] = gender;
     }
