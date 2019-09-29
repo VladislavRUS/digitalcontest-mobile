@@ -15,7 +15,7 @@ class AppScreen extends StatefulWidget {
 }
 
 class AppScreenState extends State<AppScreen> {
-  int currentPage = 1;
+  int currentPage = 0;
   List<Widget> pages = [
     FeedScreen(),
     PollsScreen(),
